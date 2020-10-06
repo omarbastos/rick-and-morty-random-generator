@@ -1,5 +1,7 @@
 # rick-and-morty-dex
 
+[![Build Status](https://travis-ci.com/omarbastos/rick-and-morty-random-generator.svg?branch=master)](https://travis-ci.com/omarbastos/rick-and-morty-random-generator)
+
 ## Build Setup
 
 ```bash

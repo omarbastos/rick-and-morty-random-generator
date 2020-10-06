@@ -1,142 +1,53 @@
 <template>
-  <div class="container portal mt-12">
-    <div class="bg-gray-900 shadow overflow-hidden sm:rounded-lg">
-      <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-        <div class="flex items-baseline justify-center">
-          <span :class="statusClass(character.status)">
-            {{ character.status }}</span
-          >
-          <div
-            class="text-3xl leading-6 font-medium text-gray-200 text-center my-4"
-          >
+  <div class="container">
+    <div
+      v-for="(character, index) in characters"
+      :key="index"
+      class="my-12 justify-center w-full lg:max-w-full lg:flex"
+    >
+      <div
+        class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+        :style="`background-image: url('${character.image}')`"
+        :title="character.name"
+      ></div>
+      <div
+        class="lg:w-1/3 sm:w-4/5 bg-gray-900 border-r border-b border-l border-gray-900 lg:border-l-0 lg:border-t lg:border-gray-900 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
+      >
+        <div class="mb-8">
+          <div class="text-center text-yellow-400 font-bold text-2xl mb-2">
+            <span :class="statusClass(character.status)">
+              {{ character.status }}</span
+            >
             {{ character.name }}
           </div>
-        </div>
-        <div class="container justify-center flex">
-          <img
-            class="h-52 w-52 object-center rounded-full border-2 border-gray-100"
-            :src="character.image"
-            :alt="character.name"
-          />
+          <p class="py-2 text-lg text-white font-semibold">
+            Gender: {{ character.gender }}<br />
+            Type:
+            {{
+              character.type && character.type.length > 0
+                ? character.type
+                : 'N/A'
+            }}<br />
+            Species:
+            {{
+              character.species && character.species.length > 0
+                ? character.species
+                : 'N/A'
+            }}<br />
+            <!--   First seen in:
+            {{ character.episode[0] }}
+            <br /> -->
+          </p>
         </div>
       </div>
-      <div>
-        <dl>
-          <div
-            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-          >
-            <dt class="text-xl leading-5 font-medium text-gray-500 text-center">
-              <div class="tooltip">
-                Species
-                <span
-                  class="tooltip-text text-sm bg-green-500 p-3 mt-1 lg:mt-8 text-white rounded"
-                  >The species of the character.</span
-                >
-              </div>
-            </dt>
-            <dd
-              class="mt-1 text-xl leading-5 text-gray-500 sm:mt-0 sm:col-span-2 text-center"
-            >
-              {{
-                character.species && character.species.length > 0
-                  ? character.species
-                  : 'N/A'
-              }}
-            </dd>
-          </div>
-          <div
-            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-          >
-            <dt class="text-xl leading-5 font-medium text-gray-500 text-center">
-              <div class="tooltip">
-                Type
-                <span
-                  class="tooltip-text text-sm bg-green-500 p-3 mt-1 lg:mt-8 text-white rounded"
-                  >The type or subspecies of the character.</span
-                >
-              </div>
-            </dt>
-            <dd
-              class="mt-1 text-xl leading-5 text-gray-500 sm:mt-0 sm:col-span-2 text-center"
-            >
-              {{
-                character.type && character.type.length > 0
-                  ? character.type
-                  : 'N/A'
-              }}
-            </dd>
-          </div>
-          <div
-            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-          >
-            <dt class="text-xl leading-5 font-medium text-gray-500 text-center">
-              <div class="tooltip">
-                Gender
-                <span
-                  class="tooltip-text text-sm bg-green-500 p-3 mt-1 lg:mt-8 text-white rounded"
-                  >The gender of the character ('Female', 'Male', 'Genderless'
-                  or 'unknown').</span
-                >
-              </div>
-            </dt>
-            <dd
-              class="mt-1 text-xl leading-5 text-gray-500 sm:mt-0 sm:col-span-2 text-center"
-            >
-              <span :class="genderClass(character.gender)">
-                {{ character.gender }}</span
-              >
-            </dd>
-          </div>
-          <div
-            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-          >
-            <dt class="text-xl leading-5 font-medium text-gray-500 text-center">
-              <div class="tooltip">
-                Origin
-                <span
-                  class="tooltip-text text-sm bg-green-500 p-3 mt-1 lg:mt-8 text-white rounded"
-                  >Character's origin location.</span
-                >
-              </div>
-            </dt>
-            <dd
-              class="mt-1 text-xl capitalize leading-5 text-gray-500 sm:mt-0 sm:col-span-2 text-center"
-            >
-              {{
-                character.origin &&
-                character.origin.name &&
-                character.origin.name.length > 0
-                  ? character.origin.name
-                  : 'N/A'
-              }}
-            </dd>
-          </div>
-          <div
-            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-          >
-            <dt class="text-xl leading-5 font-medium text-gray-500 text-center">
-              <div class="tooltip">
-                Last Known Location
-                <span
-                  class="tooltip-text text-sm bg-green-500 p-3 mt-1 lg:mt-8 text-white rounded"
-                  >Character's last known location endpoint.</span
-                >
-              </div>
-            </dt>
-            <dd
-              class="mt-1 text-xl capitalize leading-5 text-gray-500 sm:mt-0 sm:col-span-2 text-center"
-            >
-              {{
-                character.location &&
-                character.location.name &&
-                character.location.name.length > 0
-                  ? character.location.name
-                  : 'N/A'
-              }}
-            </dd>
-          </div>
-        </dl>
-      </div>
+    </div>
+    <div class="flex justify-center my-12">
+      <button
+        @click="getCharacters"
+        class="mx-auto bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 hover:border-green-500 rounded text-2xl"
+      >
+        Get new Random Characters!
+      </button>
     </div>
   </div>
 </template>
@@ -148,30 +59,42 @@ import { Vue, Component, Prop } from 'nuxt-property-decorator'
 @Component
 export default class RandomCharacter extends Vue {
   // Class properties will be component data
-  character = []
+  characters = []
   MAX = 671
+
+  //Initial Fetch
   async fetch() {
-    this.character = await fetch(
-      `https://rickandmortyapi.com/api/character/${this.randomNumber()}`
+    await this.getCharacters()
+  }
+  // Get Characters from API
+  async getCharacters() {
+    this.characters = await fetch(
+      `https://rickandmortyapi.com/api/character/${this.randomNumbers()}`
     ).then((res) => res.json())
   }
-  randomNumber(): number {
-    return Math.floor(Math.random() * this.MAX) + 1
+  //Get Random Numbers from 1 to MAX
+  randomNumbers(): number[] {
+    return [
+      Math.floor(Math.random() * this.MAX) + 1,
+      Math.floor(Math.random() * this.MAX) + 1,
+      Math.floor(Math.random() * this.MAX) + 1,
+    ]
   }
   // Methods will be component methods
-
+  // Switch Case for Status, getting right color
   statusClass(status: string): string {
     switch (status) {
       case 'Alive':
-        return `inline-block bg-green-500 mx-2 text-green-100 text-xl px-2 rounded-full uppercase font-semibold tracking-wide`
+        return `inline-block bg-green-500 mx-2 text-green-100 px-2 rounded-full  font-semibold tracking-wide`
       case 'Dead':
-        return `inline-block bg-red-700 mx-2 text-red-100 text-xl px-2 rounded-full uppercase font-semibold tracking-wide`
+        return `inline-block bg-red-700 mx-2 text-red-100 px-2 rounded-full  font-semibold tracking-wide`
       case 'unknown':
-        return `inline-block bg-blue-700 mx-2 text-blue-100 text-xl px-2 rounded-full uppercase font-semibold tracking-wide`
+        return `inline-block bg-blue-700 mx-2 text-blue-100  px-2 rounded-full  font-semibold tracking-wide`
       default:
-        return `inline-block bg-blue-700 mx-2 text-blue-100 text-xl px-2 rounded-full uppercase font-semibold tracking-wide`
+        return `inline-block bg-blue-700 mx-2 text-blue-100 px-2 rounded-full  font-semibold tracking-wide`
     }
   }
+  //Switch Case for Gender
   genderClass(gender: string): string {
     switch (gender) {
       case 'Female':
@@ -190,12 +113,6 @@ export default class RandomCharacter extends Vue {
 </script>
 
 <style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-
 .tooltip .tooltip-text {
   visibility: hidden;
   text-align: center;
